@@ -1,0 +1,31 @@
+﻿@page "/employees"
+@inject HttpClient Http
+
+<MudTable Items="_data" Loading="_loading">
+    <HeaderContent>
+        @foreach (var col in _columns)
+        {
+            <MudTh>@col</MudTh>
+        }
+    </HeaderContent>
+
+    <RowTemplate>
+        @foreach (var col in _columns)
+        {
+            <MudTd>@context[col]</MudTd>
+        }
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private List<Dictionary<string, object>>? _data;
+    private List<string>? _columns;
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _data = await Http.GetFromJsonAsync<List<Dictionary<string, object>>>("api/employees");
+        _columns = _data!.First().Keys.ToList();
+        _loading = false;
+    }
+}
