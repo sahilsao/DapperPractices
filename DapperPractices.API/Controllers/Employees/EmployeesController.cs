@@ -30,7 +30,7 @@ namespace DapperPractices.API.Controllers.Employees
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDetailsById(int id)
         {
-            var sql = "SELECT EmployeeId, FirstName FROM Employees WHERE Id = @Id";
+            var sql = "SELECT EmployeeId, FirstName FROM Employees WHERE EmployeeId = @Id";
 
             using var connection = _context.CreateConnection();
             var data = await connection.QuerySingleOrDefaultAsync(sql, new { Id = id });
